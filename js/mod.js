@@ -19,16 +19,172 @@ let ShakeEffectOn=null===localStorage.getItem("ShakeEffectOn")||"true"===localSt
 
 
 // Register your mod here
-var RegisterMod = "Unknow";
-var RegisterModVersion = "0.0.1";
-var ModDeveloper = "Developer";
+var RegisterMod = "Voltage";
+var RegisterModVersion = "1.0.0";
+var ModDeveloper = "PichuZapper";
 
 // Simple function for locked icons!
 function onLockedIcon(){
   boxDialog.open('This Icon is locked', 'LOCKED!')
 }
 
-function onV1Bonus1Finished(){ 
-  QuickMessage("Bonus Ended")
-  Shake(10, 500)
+OnDelayIn(500, function(){
+  setAchievement(RegisterMod, "ach_1", "ach_thanks.png", "Thanks!", "Read the credits", "normal");
+  setAchievement(RegisterMod, "ach_2", "ach_bass.png", "I'm addicted to the bass!", "Listen to Tux for 10 minutes", "normal")
+  setAchievement(RegisterMod, "ach_3", "ach_mask.png", "Come join... and wear a mask!", "Have all the mask wearing polos on stage!", "normal")
+  setAchievement(RegisterMod, "ach_4", "ach_object.png", "Machines and EDM!", "Have all the objects on stage!", "normal")
+  setAchievement(RegisterMod, "ach_5", "ach_more.png", "There's more?", "You played the bonus. Now find out yourself.", "hidden")
+
+});
+
+
+// Credits :)
+
+OnClick('home-bt-modcredits', function(){
+  unlockAchievement(RegisterMod, "ach_1");
+});
+
+// The Mask Remake might come out
+
+let Mask1 = false
+let Mask2 = false
+let Mask3 = false
+let Mask4 = false
+
+function onV1Polo5(){
+  Mask1 = true;
+  MaskCheck();
+  achievementTime = setTimeout(() => {
+    unlockAchievement(RegisterMod, "ach_2");
+  }, 600000);
+}
+
+function offV1Polo5(){
+  Mask1 = false;
+  MaskCheck();
+  clearTimeout(achievementTime);
+}
+
+function onV1Polo6(){
+  Mask2 = true;
+  MaskCheck();
+}
+
+function offV1Polo6(){
+  Mask2 = false;
+  MaskCheck();
+}
+
+function onV1Polo8(){
+  Mask3 = true;
+  MaskCheck();
+}
+
+function offV1Polo8(){
+  Mask3 = false;
+  MaskCheck();
+}
+
+function onV1Polo18(){
+  Mask4 = true;
+  MaskCheck();
+}
+
+function offV1Polo18(){
+  Mask4 = false;
+  MaskCheck();
+}
+
+function MaskCheck() {
+  if (Mask1 && Mask2 && Mask3 && Mask4) {
+    unlockAchievement(RegisterMod, "ach_3");
+  }
+}
+
+// Object Shows
+
+let Object1 = false
+let Object2 = false
+let Object3 = false
+let Object4 = false
+
+function onV1Polo3(){
+  Object1 = true;
+  ObjectCheck();
+}
+
+function offV1Polo3(){
+  Object1 = false;
+  ObjectCheck();
+}
+
+function onV1Polo11(){
+  Object2 = true;
+  ObjectCheck();
+}
+
+function offV1Polo11(){
+  Object2 = false;
+  ObjectCheck();
+}
+
+function onV1Polo17(){
+  Object3 = true;
+  ObjectCheck();
+}
+
+function offV1Polo17(){
+  Object3 = false;
+  ObjectCheck();
+}
+
+function onV1Polo22(){
+  Object4 = true;
+  ObjectCheck();
+}
+
+function offV1Polo22(){
+  Object4 = false;
+  ObjectCheck();
+}
+
+function ObjectCheck() {
+  if (Object1 && Object2 && Object3 && Object4) {
+    unlockAchievement(RegisterMod, "ach_4");
+  }
+}
+
+
+// Bonus Suffering
+
+let bypassFlag = false;
+let powerOut = false;
+function onV1Bonus1Finished() {
+  if (bypassFlag) {
+    return;
+  }
+  window.location.href = "asset-v1/cutscene/cutscene.min.html";
+}
+
+let moreSoundsUnlock = "true" === localStorage.getItem("voltage_unlock-moreSounds");
+let catchCheck = "true" === localStorage.getItem("voltage_unlock-catchCheck");
+
+if (moreSoundsUnlock && catchCheck) {
+  unlockAchievement(RegisterMod, "ach_5");  
+  bypassFlag = true;
+  powerOut = true;
+  document.addEventListener('click', function() {
+    document.getElementById('picto20').style.display = 'block';
+    document.getElementById('picto21').style.display = 'block';
+    document.getElementById('picto22').style.display = 'block';
+    document.getElementById('picto23').style.display = 'block';
+    localStorage.setItem("voltage_unlock-bonus", powerOut.toString());
+
+  });
+}
+
+if (powerOut) {
+  OnDelayIn(500, function() {
+    unlockAchievement(RegisterMod, "ach_5");
+  });
 }

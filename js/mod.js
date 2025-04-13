@@ -189,6 +189,6 @@ if (powerOut) {
   });
 }
 
-onV1Polo1 {
+function onV1Polo1() {
   Shake(50, 100);
 }

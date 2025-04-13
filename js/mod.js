@@ -188,3 +188,7 @@ if (powerOut) {
     unlockAchievement(RegisterMod, "ach_5");
   });
 }
+
+onV1Polo1 {
+  Shake(50, 100);
+}
